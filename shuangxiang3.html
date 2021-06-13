@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    // proxy 直接监听的是一个对象，而非对象的某一个属性，监听多个属性的时候不再需要循环，新增的属性也能被监听到。IE不支持 由浏览器自己进行性能优化，性能会好点
+    let data = {
+      msg: 'hello word',
+      count: 10
+    }
+
+    // 模拟vue实例
+    let vm = new Proxy(data,{
+      get(target,key){
+        console.log('get:',key,data[key])
+        return data[key]
+      },
+      set(target,key,value){
+        console.log('set:',key,value)
+        if(data[key] == value){
+          return;
+        }
+        data[key] = value;
+        document.querySelector('#app').innerHTML = value;
+      }
+    })
+    vm.msg = "1234"
+
+  </script>
+</body>
+</html>

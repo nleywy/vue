@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    hello
+  </div>
+  <script>
+    let data = {
+      msg: 'hello word',
+      count: 10
+    }
+
+    // 模拟vue实例
+    let vm = {}
+
+    proxyData(data)
+
+    function proxyData(data){
+      Object.keys(data).forEach(key => {
+        Object.defineProperty(vm,key,{
+          enumerable: true,
+          configurable: true,
+          get(){
+            console.log('get:',key,data[key])
+            return data[key]
+          },
+          set(value){
+            console.log('set:',key,value)
+            if(data[key] == value){
+              return;
+            }
+            data[key] = value;
+            document.querySelector('#app').innerHTML = value;
+          }
+        })
+      })
+    }
+
+    vm.msg = "1234"
+  </script>
+</body>
+</html>

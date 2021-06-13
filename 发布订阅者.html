@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    class myEvent {
+      constructor(){
+        this.events = {}
+      }
+
+      on(type,event){
+        if(!this.events[type]){
+          this.events[type] = []
+        }
+        this.events[type].push(event)
+      }
+
+      emit(type,params){
+        if(this.events[type]){
+          this.events[type].forEach(function(item){
+            item(params)
+          })
+        }
+      }
+    }
+
+    const events = new myEvent()
+    events.on('test',function(){
+      console.log(11111)
+    })
+    events.on('test',function(){
+      console.log(222)
+    })
+    events.emit("test")
+
+    Function.prototype.myBind = function(arg1,...arg2){
+      const _this = this;
+      return function(){
+        _this.call(arg1,...arg2,arguments)
+      }
+    }
+
+    /*
+    // 事件中心
+    let eventBus = new Vue()
+
+    // 组件A：发布者
+    addTodo: function(){
+      eventBus.$emit('add-todo',params)
+    }
+
+    // 组件B：订阅者
+    created(){
+      eventBus.$on('add-todo',function(){
+
+      })
+    }
+    */
+  </script>
+</body>
+</html>
